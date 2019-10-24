@@ -29,18 +29,18 @@ function addDialogTextInput(dialog, label)
         name = label
     })
 end
-function destroyDialog(dialog)
-    dialogs[dialog] = nil
-    if lastOpened == dialog then
-        CloseDialog()
-    end
-end
 function closeDialog()
     lastOpened = -1
     ExecuteWebJS(web, "CloseDialog();");
     SetIgnoreLookInput(false)
     ShowMouseCursor(false)
     SetInputMode(INPUT_GAME)
+end
+function destroyDialog(dialog)
+    dialogs[dialog] = nil
+    if lastOpened == dialog then
+        closeDialog()
+    end
 end
 function showDialog(dialog)
     if dialogs[dialog] == nil then
