@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0px;
+                background-image: url(bg.png);
+            }
+            .wrapper {
+                width: 100vw;
+                height: 100vh;
+                text-align: center;
+            }
+            .menu {
+                font-family: sans-serif;
+                background-color: #333333;
+                width: 300px;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid black;
+                position: relative;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0.95;
+                text-align: left;
+            }
+            .menu-button {
+                width: 100%;
+                background-color: #262626;
+                color: white;
+                border-radius: 3px;
+                border: 1px solid black;
+                padding: 3px;
+                outline: none;
+                margin-bottom: 5px;
+            }
+            .menu-label {
+                color: white;
+                display: inline-block;
+                margin-bottom: 5px;
+            }
+            .menu-select {
+                width: 100%;
+                border-radius: 3px;
+                border: 1px solid black;
+                background-color: #262626;
+                color: white;
+                padding: 3px;
+                margin-bottom: 5px;
+                outline: none;
+            }
+            .menu-title {
+                text-align: center;
+                color: white;
+                margin: 5px;
+            }
+            .menu-info {
+                text-align: center;
+                color: white;
+                font-size: 12px;
+            }
+            .menu-input-text {
+                width: calc(100% - 8px);
+                background-color: #262626;
+                color: white;
+                border-radius: 3px;
+                border: 1px solid black;
+                padding: 3px;
+                outline: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="menu" id="menu" style="display: none;"></div>
+        </div>
+        <script>
+        function CloseDialog(){
+            let menuDiv = document.getElementById("menu");
+            menuDiv.style.display = "none";
+        }
+        function SetDialog(id, json){
+            let menuDiv = document.getElementById("menu");
+            let inputs = [];
+            while(menuDiv.firstChild !== null){
+                menuDiv.removeChild(menuDiv.firstChild);
+            }
+            if(json.title !== undefined){
+                let titleH = document.createElement("h1");
+                titleH.className = "menu-title";
+                titleH.appendChild(document.createTextNode(json.title));
+                menuDiv.appendChild(titleH);
+                menuDiv.appendChild(document.createElement("hr"));
+            }
+            if(json.text !== undefined){
+                let textSpan = document.createElement("span");
+                textSpan.className = "menu-info";
+                textSpan.appendChild(document.createTextNode(json.text));
+                menuDiv.appendChild(textSpan);
+                menuDiv.appendChild(document.createElement("hr"));
+            }
+            if(json.inputs !== undefined && json.inputs.length > 0){
+                for(let jsonInput of json.inputs){
+                    let labelElement = document.createElement("label");
+                    labelElement.className = "menu-label";
+                    labelElement.appendChild(document.createTextNode(jsonInput.name+':'));
+                    menuDiv.appendChild(labelElement);
+                    if(jsonInput.type === "text"){
+                        let inputElement = document.createElement("input");
+                        inputElement.className = "menu-input-text";
+                        menuDiv.appendChild(inputElement);
+                        inputs.push(inputElement);
+                    }
+                    if(jsonInput.type === "select"){
+                        let selectElement = document.createElement("select");
+                        selectElement.className = "menu-select";
+                        for(let option of jsonInput.options){
+                            let optionElement = document.createElement("option");
+                            optionElement.appendChild(document.createTextNode(option));
+                            selectElement.appendChild(optionElement);
+                        }
+                        menuDiv.appendChild(selectElement);
+                        inputs.push(selectElement);
+                    }
+                }
+                menuDiv.appendChild(document.createElement("hr"));
+            }
+            for(let i = 0; i < json.buttons.length; i++){
+                let buttonElement = document.createElement("button");
+                buttonElement.className = "menu-button";
+                buttonElement.appendChild(document.createTextNode(json.buttons[i]));
+                buttonElement.onclick = function(){
+                    let params = [id, i+1];
+                    for(let input of inputs){
+                        params.push(input.value);
+                    }
+                    CloseDialog();
+                    ue.game.callevent("__dialog_system_closed", "[]");
+                    ue.game.callevent("OnDialogSubmit", JSON.stringify(params));
+                };
+                menuDiv.appendChild(buttonElement);
+            }
+            menuDiv.style.display = "inline-block";
+        }
+        SetDialog(1, myMenu);
+        </script>
+    </body>
+</html>
