@@ -1,5 +1,5 @@
 # DialogUI
-A very simple ui system for basic dialogs
+A very simple ui system for basic dialogs in Onset
 
 ## Example
 ```lua
