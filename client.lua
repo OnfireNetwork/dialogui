@@ -12,28 +12,55 @@ function createDialog(title, text, ...)
         title = title,
         text = text,
         buttons = {...},
-        inputs = {}
+        inputs = {},
+        variables = {}
     }
     return id
 end
 function addDialogSelect(dialog, label, ...)
-    table.insert(dialogs[dialog]["inputs"], {
+    if dialogs[dialog] == nil then
+        return
+    end
+    table.insert(dialogs[dialog].inputs, {
         type = "select",
         name = label,
         options = {...}
     })
+    return #dialogs[dialog].inputs
+end
+function setDialogSelectOptions(dialog, input, ...)
+    if dialogs[dialog] == nil then
+        return
+    end
+    if dialogs[dialog].inputs[input] == nil then
+        return
+    end
+    if dialogs[dialog].inputs[input].options == nil then
+        return
+    end
+    dialogs[dialog].inputs[input].options = {...}
 end
 function addDialogTextInput(dialog, label)
-    table.insert(dialogs[dialog]["inputs"], {
+    if dialogs[dialog] == nil then
+        return
+    end
+    table.insert(dialogs[dialog].inputs, {
         type = "text",
         name = label
     })
+    return #dialogs[dialog].inputs
 end
-function destroyDialog(dialog)
-    dialogs[dialog] = nil
-    if lastOpened == dialog then
-        CloseDialog()
+function setVariable(dialog, name, value)
+    if dialogs[dialog] == nil then
+        return
     end
+    dialogs[dialog].variables[name] = value
+end
+function replaceVariables(text, variables)
+    for k,v in pairs(variables) do
+        text = text:gsub("{"..k.."}", v)
+    end
+    return text
 end
 function closeDialog()
     lastOpened = -1
@@ -41,6 +68,12 @@ function closeDialog()
     SetIgnoreLookInput(false)
     ShowMouseCursor(false)
     SetInputMode(INPUT_GAME)
+end
+function destroyDialog(dialog)
+    dialogs[dialog] = nil
+    if lastOpened == dialog then
+        closeDialog()
+    end
 end
 function showDialog(dialog)
     if dialogs[dialog] == nil then
@@ -53,7 +86,7 @@ function showDialog(dialog)
         json = "title:\""..d.title.."\","
     end
     if d.text ~= nil then
-        json = json.."text:\""..d.text.."\","
+        json = json.."text:\""..replaceVariables(d.text, d.variables).."\","
     end
     if d.inputs ~= nil then
         json = json.."inputs:["
@@ -97,6 +130,8 @@ end)
 AddFunctionExport("create", createDialog)
 AddFunctionExport("addSelect", addDialogSelect)
 AddFunctionExport("addTextInput", addDialogTextInput)
+AddFunctionExport("setVariable", setVariable)
 AddFunctionExport("show", showDialog)
 AddFunctionExport("close", closeDialog)
 AddFunctionExport("destroy", destroyDialog)
+AddFunctionExport("setSelectOptions", setDialogSelectOptions)
