@@ -21,20 +21,34 @@ function addDialogSelect(dialog, label, ...)
     if dialogs[dialog] == nil then
         return
     end
-    table.insert(dialogs[dialog]["inputs"], {
+    table.insert(dialogs[dialog].inputs, {
         type = "select",
         name = label,
         options = {...}
     })
+    return #dialogs[dialog].inputs
+end
+function setDialogSelectOptions(dialog, input, ...)
+    if dialogs[dialog] == nil then
+        return
+    end
+    if dialogs[dialog].inputs[input] == nil then
+        return
+    end
+    if dialogs[dialog].inputs[input].options == nil then
+        return
+    end
+    dialogs[dialog].inputs[input].options = {...}
 end
 function addDialogTextInput(dialog, label)
     if dialogs[dialog] == nil then
         return
     end
-    table.insert(dialogs[dialog]["inputs"], {
+    table.insert(dialogs[dialog].inputs, {
         type = "text",
         name = label
     })
+    return #dialogs[dialog].inputs
 end
 function setVariable(dialog, name, value)
     if dialogs[dialog] == nil then
@@ -120,3 +134,4 @@ AddFunctionExport("setVariable", setVariable)
 AddFunctionExport("show", showDialog)
 AddFunctionExport("close", closeDialog)
 AddFunctionExport("destroy", destroyDialog)
+AddFunctionExport("setSelectOptions", setDialogSelectOptions)
