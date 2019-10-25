@@ -12,11 +12,15 @@ function createDialog(title, text, ...)
         title = title,
         text = text,
         buttons = {...},
-        inputs = {}
+        inputs = {},
+        variables = {}
     }
     return id
 end
 function addDialogSelect(dialog, label, ...)
+    if dialogs[dialog] == nil then
+        return
+    end
     table.insert(dialogs[dialog]["inputs"], {
         type = "select",
         name = label,
@@ -24,10 +28,25 @@ function addDialogSelect(dialog, label, ...)
     })
 end
 function addDialogTextInput(dialog, label)
+    if dialogs[dialog] == nil then
+        return
+    end
     table.insert(dialogs[dialog]["inputs"], {
         type = "text",
         name = label
     })
+end
+function setVariable(dialog, name, value)
+    if dialogs[dialog] == nil then
+        return
+    end
+    dialogs[dialog].variables[name] = value
+end
+function replaceVariables(text, variables)
+    for k,v in pairs(variables) do
+        text = text:gsub("{"..k.."}", v)
+    end
+    return text
 end
 function closeDialog()
     lastOpened = -1
@@ -53,7 +72,7 @@ function showDialog(dialog)
         json = "title:\""..d.title.."\","
     end
     if d.text ~= nil then
-        json = json.."text:\""..d.text.."\","
+        json = json.."text:\""..replaceVariables(d.text, d.variables).."\","
     end
     if d.inputs ~= nil then
         json = json.."inputs:["
@@ -97,6 +116,7 @@ end)
 AddFunctionExport("create", createDialog)
 AddFunctionExport("addSelect", addDialogSelect)
 AddFunctionExport("addTextInput", addDialogTextInput)
+AddFunctionExport("setVariable", setVariable)
 AddFunctionExport("show", showDialog)
 AddFunctionExport("close", closeDialog)
 AddFunctionExport("destroy", destroyDialog)
