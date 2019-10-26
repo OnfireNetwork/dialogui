@@ -5,7 +5,6 @@
     <style>
         body {
             margin: 0px;
-            background-image: url(bg.png);
         }
 
         .wrapper {
@@ -117,8 +116,9 @@
             if (json.inputs !== undefined && json.inputs.length > 0) {
                 let rendered = 0;
                 for (let jsonInput of json.inputs) {
+                    let labelElement;
                     if(jsonInput.name.length > 0){
-                        let labelElement = document.createElement("label");
+                        labelElement = document.createElement("label");
                         labelElement.className = "menu-label";
                         labelElement.appendChild(document.createTextNode(jsonInput.name + ':'));
                         menuDiv.appendChild(labelElement);
