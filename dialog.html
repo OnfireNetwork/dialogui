@@ -145,7 +145,10 @@
                 }
                 menuDiv.appendChild(document.createElement("hr"));
             }
-            for (let i = 0; i < json.buttons.length; i++) {
+            for (let i = 0; i < json.buttons.length; i++){
+                if(json.buttons[i].length == 0){
+                    continue;
+                }
                 let buttonElement = document.createElement("button");
                 buttonElement.className = "menu-button";
                 buttonElement.appendChild(document.createTextNode(json.buttons[i]));
