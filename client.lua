@@ -66,6 +66,7 @@ function closeDialog()
     lastOpened = -1
     ExecuteWebJS(web, "CloseDialog();");
     SetIgnoreLookInput(false)
+    SetIgnoreMoveInput(false)
     ShowMouseCursor(false)
     SetInputMode(INPUT_GAME)
 end
@@ -83,7 +84,7 @@ function showDialog(dialog)
     local d = dialogs[dialog]
     local json = ""
     if d.title ~= nil then
-        json = "title:\""..d.title.."\","
+        json = "title:\""..replaceVariables(d.title, d.variables).."\","
     end
     if d.text ~= nil then
         json = json.."text:\""..replaceVariables(d.text, d.variables).."\","
@@ -94,7 +95,7 @@ function showDialog(dialog)
             if i > 1 then
                 json = json..","
             end
-            json = json.."{type:\""..d.inputs[i].type.."\",name:\""..d.inputs[i].name.."\""
+            json = json.."{type:\""..d.inputs[i].type.."\",name:\""..replaceVariables(d.inputs[i].name, d.variables).."\""
             if d.inputs[i].options ~= nil then
                 json = json..",options:["
                 for j=1,#d.inputs[i].options do
@@ -114,16 +115,18 @@ function showDialog(dialog)
         if i > 1 then
             json = json..","
         end
-        json = json.."\""..d.buttons[i].."\""
+        json = json.."\""..replaceVariables(d.buttons[i], d.variables).."\""
     end
     ExecuteWebJS(web, "SetDialog("..dialog..",{"..json.."]});")
     SetIgnoreLookInput(true)
+    SetIgnoreMoveInput(true)
     ShowMouseCursor(true)
     SetInputMode(INPUT_GAMEANDUI)
 end
 AddEvent("__dialog_system_closed", function()
     lastOpened = -1
     SetIgnoreLookInput(false)
+    SetIgnoreMoveInput(false)
     ShowMouseCursor(false)
     SetInputMode(INPUT_GAME)
 end)
