@@ -28,3 +28,4 @@ AddEvent("OnDialogSubmit", function(dialog, button, firstName, lastName, gender)
   end
 end)
 ```
+![image](/screenshots/character-menu.png)
