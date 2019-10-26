@@ -28,6 +28,16 @@ function addDialogSelect(dialog, label, ...)
     })
     return #dialogs[dialog].inputs
 end
+function addDialogCheckbox(dialog, label)
+    if dialogs[dialog] == nil then
+        return
+    end
+    table.insert(dialogs[dialog].inputs, {
+        type = "checkbox",
+        name = label
+    })
+    return #dialogs[dialog].inputs
+end
 function setDialogSelectOptions(dialog, input, ...)
     if dialogs[dialog] == nil then
         return
@@ -133,6 +143,7 @@ end)
 AddFunctionExport("create", createDialog)
 AddFunctionExport("addSelect", addDialogSelect)
 AddFunctionExport("addTextInput", addDialogTextInput)
+AddFunctionExport("addCheckbox", addDialogCheckbox)
 AddFunctionExport("setVariable", setVariable)
 AddFunctionExport("show", showDialog)
 AddFunctionExport("close", closeDialog)
