@@ -77,6 +77,10 @@
             outline: none;
             margin-bottom: 5px;
         }
+
+        .menu-checkbox {
+
+        }
     </style>
 </head>
 
@@ -115,20 +119,17 @@
             }
             if (json.inputs !== undefined && json.inputs.length > 0) {
                 let rendered = 0;
-                for (let jsonInput of json.inputs) {
-                    let labelElement;
-                    if(jsonInput.name.length > 0){
-                        labelElement = document.createElement("label");
-                        labelElement.className = "menu-label";
-                        labelElement.appendChild(document.createTextNode(jsonInput.name + ':'));
-                        menuDiv.appendChild(labelElement);
-                        rendered++;
-                    }
+                for (let jsonInput of json.inputs){
                     if (jsonInput.type === "text") {
                         let inputElement = document.createElement("input");
                         inputElement.className = "menu-input-text";
                         if(jsonInput.name.length > 0){
+                            let labelElement = document.createElement("label");
+                            labelElement.className = "menu-label";
+                            labelElement.appendChild(document.createTextNode(jsonInput.name + ':'));
+                            menuDiv.appendChild(labelElement);
                             menuDiv.appendChild(inputElement);
+                            rendered++;
                         }
                         inputs.push(inputElement);
                     }
@@ -141,15 +142,27 @@
                             selectElement.appendChild(optionElement);
                         }
                         if(jsonInput.name.length > 0){
+                            let labelElement = document.createElement("label");
+                            labelElement.className = "menu-label";
+                            labelElement.appendChild(document.createTextNode(jsonInput.name + ':'));
+                            menuDiv.appendChild(labelElement);
                             menuDiv.appendChild(selectElement);
+                            rendered++;
                         }
                         inputs.push(selectElement);
                     }
                     if (jsonInput.type === "checkbox") {
                         let checkboxElement = document.createElement("input");
                         checkboxElement.setAttribute("type", "checkbox");
+                        checkboxElement.className = "menu-checkbox";
                         if(jsonInput.name.length > 0){
-                            labelElement.appendChild(checkboxElement);
+                            menuDiv.appendChild(checkboxElement);
+                            let labelElement = document.createElement("label");
+                            labelElement.className = "menu-label";
+                            labelElement.appendChild(document.createTextNode(jsonInput.name));
+                            menuDiv.appendChild(labelElement);
+                            menuDiv.appendChild(document.createElement("br"));
+                            rendered++;
                         }
                         inputs.push(checkboxElement);
                     }
