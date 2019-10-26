@@ -97,29 +97,39 @@
                 menuDiv.removeChild(menuDiv.firstChild);
             }
             if (json.title !== undefined) {
-                let titleH = document.createElement("h1");
-                titleH.className = "menu-title";
-                titleH.appendChild(document.createTextNode(json.title));
-                menuDiv.appendChild(titleH);
-                menuDiv.appendChild(document.createElement("hr"));
+                if(json.title.length > 0){
+                    let titleH = document.createElement("h1");
+                    titleH.className = "menu-title";
+                    titleH.appendChild(document.createTextNode(json.title));
+                    menuDiv.appendChild(titleH);
+                    menuDiv.appendChild(document.createElement("hr"));
+                }
             }
             if (json.text !== undefined) {
-                let textSpan = document.createElement("span");
-                textSpan.className = "menu-info";
-                textSpan.appendChild(document.createTextNode(json.text));
-                menuDiv.appendChild(textSpan);
-                menuDiv.appendChild(document.createElement("hr"));
+                if(json.text.length > 0){
+                    let textSpan = document.createElement("span");
+                    textSpan.className = "menu-info";
+                    textSpan.appendChild(document.createTextNode(json.text));
+                    menuDiv.appendChild(textSpan);
+                    menuDiv.appendChild(document.createElement("hr"));
+                }
             }
             if (json.inputs !== undefined && json.inputs.length > 0) {
+                let rendered = 0;
                 for (let jsonInput of json.inputs) {
-                    let labelElement = document.createElement("label");
-                    labelElement.className = "menu-label";
-                    labelElement.appendChild(document.createTextNode(jsonInput.name + ':'));
-                    menuDiv.appendChild(labelElement);
+                    if(jsonInput.name.length > 0){
+                        let labelElement = document.createElement("label");
+                        labelElement.className = "menu-label";
+                        labelElement.appendChild(document.createTextNode(jsonInput.name + ':'));
+                        menuDiv.appendChild(labelElement);
+                        rendered++;
+                    }
                     if (jsonInput.type === "text") {
                         let inputElement = document.createElement("input");
                         inputElement.className = "menu-input-text";
-                        menuDiv.appendChild(inputElement);
+                        if(jsonInput.name.length > 0){
+                            menuDiv.appendChild(inputElement);
+                        }
                         inputs.push(inputElement);
                     }
                     if (jsonInput.type === "select") {
@@ -130,7 +140,9 @@
                             optionElement.appendChild(document.createTextNode(option));
                             selectElement.appendChild(optionElement);
                         }
-                        menuDiv.appendChild(selectElement);
+                        if(jsonInput.name.length > 0){
+                            menuDiv.appendChild(selectElement);
+                        }
                         inputs.push(selectElement);
                     }
                     if (jsonInput.type === "checkbox") {
@@ -138,12 +150,15 @@
                         checkboxElement.setAttribute("type", "checkbox");
                         checkboxElement.setAttribute("name", jsonInput.name);
                         checkboxElement.setAttribute("value", jsonInput.name);
-
-                        labelElement.appendChild(checkboxElement);
+                        if(jsonInput.name.length > 0){
+                            labelElement.appendChild(checkboxElement);
+                        }
                         inputs.push(checkboxElement);
                     }
                 }
-                menuDiv.appendChild(document.createElement("hr"));
+                if(rendered > 0){
+                    menuDiv.appendChild(document.createElement("hr"));
+                }
             }
             for (let i = 0; i < json.buttons.length; i++){
                 if(json.buttons[i].length == 0){
