@@ -148,8 +148,6 @@
                     if (jsonInput.type === "checkbox") {
                         let checkboxElement = document.createElement("input");
                         checkboxElement.setAttribute("type", "checkbox");
-                        checkboxElement.setAttribute("name", jsonInput.name);
-                        checkboxElement.setAttribute("value", jsonInput.name);
                         if(jsonInput.name.length > 0){
                             labelElement.appendChild(checkboxElement);
                         }
