@@ -10,7 +10,6 @@ function SetDialog(id, json) {
     menuContentDiv.style.width = (json.columns.length*300)+"px";;
     if (json.title !== undefined) {
         if(json.title.length > 0){
-            menuContentDiv.appendChild(document.createElement("hr"));
             let titleH = document.createElement("h1");
             titleH.className = "menu-title";
             titleH.appendChild(document.createTextNode(json.title));
@@ -31,25 +30,22 @@ function SetDialog(id, json) {
     gridElement.className = "row";
     gridElement.style.width = (json.columns.length*300)+"px";
     gridElement.style.marginLeft = "0px";
+    let rendered = 0;
     for(let colId=0; colId<json.columns.length; colId++){
         let column = json.columns[colId];
         let colElement = document.createElement("div");
         switch(json.columns.length){
             case 1:
-                colElement.className = "col-md-12";
+                colElement.className = "col-md-12 spl-c1-1";
                 break;
             case 2:
-                colElement.className = "col-md-6";
+                colElement.className = "col-md-6 spl-c2-"+(colId+1);
                 break;
             case 3:
-                colElement.className = "col-md-4";
-                break;
-            case 4:
-                colElement.className = "col-md-3";
+                colElement.className = "col-md-4 spl-c3-"+(colId+1);
                 break;
         }
         if (column.inputs !== undefined && column.inputs.length > 0) {
-            let rendered = 0;
             for (let jsonInput of column.inputs){
                 if (jsonInput.type === "text") {
                     let inputElement = document.createElement("input");
@@ -57,7 +53,7 @@ function SetDialog(id, json) {
                     if(jsonInput.name.length > 0){
                         let labelElement = document.createElement("label");
                         labelElement.className = "menu-label";
-                        labelElement.appendChild(document.createTextNode(jsonInput.name + ':'));
+                        labelElement.appendChild(document.createTextNode(jsonInput.name));
                         colElement.appendChild(labelElement);
                         colElement.appendChild(inputElement);
                         rendered++;
@@ -88,7 +84,7 @@ function SetDialog(id, json) {
                         if(jsonInput.name !== undefined){
                             let labelElement = document.createElement("label");
                             labelElement.className = "menu-label";
-                            labelElement.appendChild(document.createTextNode(jsonInput.name + ':'));
+                            labelElement.appendChild(document.createTextNode(jsonInput.name));
                             colElement.appendChild(labelElement);
                         }
                         colElement.appendChild(selectElement);
@@ -112,9 +108,30 @@ function SetDialog(id, json) {
                     inputs.push(checkboxElement);
                 }
             }
-            if(rendered > 0){
-                colElement.appendChild(document.createElement("hr"));
-            }
+        }
+        gridElement.appendChild(colElement);
+    }
+    menuContentDiv.appendChild(gridElement);
+    if(rendered > 0){
+        menuContentDiv.appendChild(document.createElement("hr"));
+    }
+    gridElement = document.createElement("div");
+    gridElement.className = "row";
+    gridElement.style.width = (json.columns.length*300)+"px";
+    gridElement.style.marginLeft = "0px";
+    for(let colId=0; colId<json.columns.length; colId++){
+        let column = json.columns[colId];
+        let colElement = document.createElement("div");
+        switch(json.columns.length){
+            case 1:
+                colElement.className = "col-md-12 spl-c1-1";
+                break;
+            case 2:
+                colElement.className = "col-md-6 spl-c2-"+(colId+1);
+                break;
+            case 3:
+                colElement.className = "col-md-4 spl-c3-"+(colId+1);
+                break;
         }
         for (let i = 0; i < column.buttons.length; i++){
             if(column.buttons[i].length == 0){
@@ -145,6 +162,32 @@ function SetDialog(id, json) {
         gridElement.appendChild(colElement);
     }
     menuContentDiv.appendChild(gridElement);
+    for (let i = 0; i < json.buttons.length; i++){
+        if(json.buttons[i].length == 0){
+            continue;
+        }
+        let buttonElement = document.createElement("button");
+        buttonElement.className = "menu-button";
+        buttonElement.appendChild(document.createTextNode(json.buttons[i]));
+        let buttonId = nextButtonId;
+        nextButtonId++;
+        buttonElement.onclick = function () {
+            let params = [id, buttonId];
+            for (let input of inputs) {
+                if (input.type === "checkbox") {
+                    params.push(input.checked);
+                } else {
+                    params.push(input.value);
+                }
+            }
+            if(json.autoclose === undefined || json.autoclose){
+                CloseDialog();
+                ue.game.callevent("__dialog_system_closed", "[]");
+            }
+            ue.game.callevent("OnDialogSubmit", JSON.stringify(params));
+        };
+        menuContentDiv.appendChild(buttonElement);
+    }
     menuDiv.appendChild(menuContentDiv);
 }
 

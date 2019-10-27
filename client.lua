@@ -5,19 +5,24 @@ SetWebURL(web, "http://asset/dialogui/dialog.html")
 local nextId = 1
 local dialogs = {}
 local lastOpened = -1
-function createDialog(title, text)
+function createDialog(title, text, ...)
     local id = nextId
     nextId = nextId + 1
     dialogs[id] = {
         title = title,
         text = text,
         columns = {},
+        buttons = {...},
         variables = {}
     }
     return id
 end
 function setDialogButtons(dialog, column, ...)
     if dialogs[dialog] == nil then
+        return
+    end
+    if column == 0 then
+        dialogs[dialog].buttons = {...}
         return
     end
     if dialogs[dialog].columns[column] == nil then
@@ -164,7 +169,10 @@ function showDialog(dialog)
                     if i > 1 then
                         json = json..","
                     end
-                    json = json.."{type:\""..d.columns[j].inputs[i].type.."\",name:\""..replaceVariables(d.columns[j].inputs[i].name, d.variables).."\""
+                    json = json.."{type:\""..d.columns[j].inputs[i].type.."\""
+                    if d.columns[j].inputs[i].name ~= nil then
+                        json = json..",name:\""..replaceVariables(d.columns[j].inputs[i].name, d.variables).."\""
+                    end
                     if d.columns[j].inputs[i].options ~= nil then
                         if d.columns[j].inputs[i].labelMode then
                             json = json..",options:{"
@@ -205,7 +213,15 @@ function showDialog(dialog)
             end
             json = json.."]}"
         end
+        json = json.."],buttons:["
+        for i=1,#d.buttons do
+            if i > 1 then
+                json = json..","
+            end
+            json = json.."\""..replaceVariables(d.buttons[i], d.variables).."\""
+        end
     end
+    print("SetDialog("..dialog..",{"..json.."]});")
     ExecuteWebJS(web, "SetDialog("..dialog..",{"..json.."]});")
     SetIgnoreLookInput(true)
     SetIgnoreMoveInput(true)

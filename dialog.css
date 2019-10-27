@@ -2,21 +2,56 @@ body {
     margin: 0px;
 }
 
-.col-md-6 {
+.input-c2 {
     padding-left: 1%;
     padding-right: 1%;
     width: 48%;
 }
 
-.col-md-12 {
+.input-c1 {
     padding: 0px;
     width: 100%;
 }
 
-.col-md-4 {
+.input-c3 {
     padding-left: 1%;
     padding-right: 1%;
     width: 31.333333%;
+}
+
+.spl-c1-1 {
+    padding: 0px;
+    width: 100%;
+}
+
+.spl-c2-1 {
+    padding-left: 0%;
+    padding-right: 1%;
+    width: 49%;
+}
+
+.spl-c2-2 {
+    padding-left: 1%;
+    padding-right: 0%;
+    width: 49%;
+}
+
+.spl-c3-1 {
+    padding-left:0%;
+    padding-right: 1%;
+    width: 32%;
+}
+
+.spl-c3-2 {
+    padding-left: 1%;
+    padding-right: 1%;
+    width: 32%;
+}
+
+.spl-c3-3 {
+    padding-left: 1%;
+    padding-right: 0%;
+    width: 32%;
 }
 
 .wrapper {
