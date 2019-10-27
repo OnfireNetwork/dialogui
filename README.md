@@ -6,9 +6,9 @@ A very simple ui system for basic dialogs in Onset
 local Dialog = ImportPackage("dialogui")
 
 local test = Dialog.create("New Character", "Choose your character information", "Create", "Cancel")
-Dialog.addTextInput(test, 1, "First Name")
-Dialog.addTextInput(test, 1, "Last Name")
-Dialog.addSelect(test, 1, "Gender", 1, "Male", "Female", "Apache Helicopter")
+Dialog.addTextInput(test, 1, "First Name:")
+Dialog.addTextInput(test, 1, "Last Name:")
+Dialog.addSelect(test, 1, "Gender:", 1, "Male", "Female", "Apache Helicopter")
 
 Delay(1000, function()
   Dialog.show(test)
