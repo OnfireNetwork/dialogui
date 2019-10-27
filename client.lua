@@ -11,9 +11,10 @@ function createDialog(title, text, ...)
     dialogs[id] = {
         title = title,
         text = text,
-        columns = {},
+        columns = { { inputs = {}, buttons = {} } },
         buttons = {...},
-        variables = {}
+        variables = {},
+        autoclose = "true"
     }
     return id
 end
@@ -122,6 +123,16 @@ function setVariable(dialog, name, value)
     end
     dialogs[dialog].variables[name] = value
 end
+function setDialogAutoclose(dialog, autoclose)
+    if dialogs[dialog] == nil then
+        return
+    end
+    if autoclose then
+        dialogs[dialog].autoclose = "true"
+    else
+        dialogs[dialog].autoclose = "false"
+    end
+end
 function replaceVariables(text, variables)
     for k,v in pairs(variables) do
         text = text:gsub("{"..k.."}", v)
@@ -148,9 +159,9 @@ function showDialog(dialog)
     end
     lastOpened = dialog
     local d = dialogs[dialog]
-    local json = ""
+    local json = "autoclose:"..d.autoclose..","
     if d.title ~= nil then
-        json = "title:\""..replaceVariables(d.title, d.variables).."\","
+        json = json.."title:\""..replaceVariables(d.title, d.variables).."\","
     end
     if d.text ~= nil then
         json = json.."text:\""..replaceVariables(d.text, d.variables).."\","
@@ -221,7 +232,6 @@ function showDialog(dialog)
             json = json.."\""..replaceVariables(d.buttons[i], d.variables).."\""
         end
     end
-    print("SetDialog("..dialog..",{"..json.."]});")
     ExecuteWebJS(web, "SetDialog("..dialog..",{"..json.."]});")
     SetIgnoreLookInput(true)
     SetIgnoreMoveInput(true)
@@ -246,3 +256,4 @@ AddFunctionExport("close", closeDialog)
 AddFunctionExport("destroy", destroyDialog)
 AddFunctionExport("setSelectOptions", setDialogSelectOptions)
 AddFunctionExport("setSelectLabeledOptions", setDialogSelectOptionsWithLabels)
+AddFunctionExport("setAutoClose", setDialogAutoclose)

@@ -6,8 +6,12 @@ function SetDialog(id, json) {
     while (menuDiv.firstChild !== null) {
         menuDiv.removeChild(menuDiv.firstChild);
     }
+    let boxWidth = json.columns.length;
+    if(boxWidth < 1){
+        boxWidth = 1;
+    }
     let menuContentDiv = document.createElement("div");
-    menuContentDiv.style.width = (json.columns.length*300)+"px";;
+    menuContentDiv.style.width = (boxWidth*300)+"px";
     if (json.title !== undefined) {
         if(json.title.length > 0){
             let titleH = document.createElement("h1");
@@ -28,7 +32,7 @@ function SetDialog(id, json) {
     }
     let gridElement = document.createElement("div");
     gridElement.className = "row";
-    gridElement.style.width = (json.columns.length*300)+"px";
+    gridElement.style.width = (boxWidth*300)+"px";
     gridElement.style.marginLeft = "0px";
     let rendered = 0;
     for(let colId=0; colId<json.columns.length; colId++){
@@ -117,7 +121,7 @@ function SetDialog(id, json) {
     }
     gridElement = document.createElement("div");
     gridElement.className = "row";
-    gridElement.style.width = (json.columns.length*300)+"px";
+    gridElement.style.width = (boxWidth*300)+"px";
     gridElement.style.marginLeft = "0px";
     for(let colId=0; colId<json.columns.length; colId++){
         let column = json.columns[colId];
