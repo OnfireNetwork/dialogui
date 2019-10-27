@@ -6,6 +6,9 @@
 		"client.lua"
 	],
 	"files": [
-		"dialog.html"	
+		"dialog.html",
+		"dialog.js",
+		"dialog.css",
+		"grid.css"
 	]
 }

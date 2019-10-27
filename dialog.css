@@ -1,0 +1,106 @@
+body {
+    margin: 0px;
+}
+
+.col-md-6 {
+    padding-left: 1%;
+    padding-right: 1%;
+    width: 48%;
+}
+
+.col-md-12 {
+    padding: 0px;
+    width: 100%;
+}
+
+.col-md-4 {
+    padding-left: 1%;
+    padding-right: 1%;
+    width: 31.333333%;
+}
+
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+}
+
+.menu {
+    font-family: sans-serif;
+    background-color: #333333;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.95;
+    text-align: left;
+}
+
+.menu-button {
+    width: 100%;
+    background-color: #262626;
+    color: white;
+    border-radius: 3px;
+    border: 1px solid black;
+    padding: 3px;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.menu-label {
+    color: white;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.menu-select {
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid black;
+    background-color: #262626;
+    color: white;
+    padding: 3px;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+.menu-title {
+    text-align: center;
+    color: white;
+    margin: 5px;
+}
+
+.menu-info {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+}
+
+.menu-input-text {
+    width: calc(100% - 8px);
+    background-color: #262626;
+    color: white;
+    border-radius: 3px;
+    border: 1px solid black;
+    padding: 3px;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.menu-checkbox {
+
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
