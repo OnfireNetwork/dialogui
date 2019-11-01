@@ -73,13 +73,13 @@ function SetDialog(id, json) {
                     if(Array.isArray(jsonInput.options)){
                         for (let option of jsonInput.options) {
                             let optionElement = document.createElement("option");
-                            optionElement.appendChild(document.createTextNode(option));
+                            optionElement.innerHTML = option;
                             selectElement.appendChild(optionElement);
                         }
                     }else{
                         for (let optionKey of Object.keys(jsonInput.options)) {
                             let optionElement = document.createElement("option");
-                            optionElement.appendChild(document.createTextNode(jsonInput.options[optionKey]));
+                            optionElement.innerHTML = jsonInput.options[optionKey]
                             optionElement.value = optionKey;
                             selectElement.appendChild(optionElement);
                         }
@@ -139,6 +139,7 @@ function SetDialog(id, json) {
         }
         for (let i = 0; i < column.buttons.length; i++){
             if(column.buttons[i].length == 0){
+                nextButtonId++;
                 continue;
             }
             let buttonElement = document.createElement("button");
@@ -168,6 +169,7 @@ function SetDialog(id, json) {
     menuContentDiv.appendChild(gridElement);
     for (let i = 0; i < json.buttons.length; i++){
         if(json.buttons[i].length == 0){
+            nextButtonId++;
             continue;
         }
         let buttonElement = document.createElement("button");

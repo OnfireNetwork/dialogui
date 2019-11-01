@@ -159,80 +159,54 @@ function showDialog(dialog)
     end
     lastOpened = dialog
     local d = dialogs[dialog]
-    local json = "autoclose:"..d.autoclose..","
+    local json = {
+        autoclose = d.autoclose == "true",
+        columns = {},
+        buttons = {}
+    }
     if d.title ~= nil then
-        json = json.."title:\""..replaceVariables(d.title, d.variables).."\","
+        json["title"] = replaceVariables(d.title, d.variables)
     end
     if d.text ~= nil then
-        json = json.."text:\""..replaceVariables(d.text, d.variables).."\","
+        json["text"] = replaceVariables(d.text, d.variables)
     end
-    json = json.."columns:["
-    if #d.columns > 0 then
-        for j=1,#d.columns do
-            if j > 1 then
-                json = json..",{"
-            else
-                json = json.."{"
-            end
-            if d.columns[j].inputs ~= nil then
-                json = json.."inputs:["
-                for i=1,#d.columns[j].inputs do
-                    if i > 1 then
-                        json = json..","
-                    end
-                    json = json.."{type:\""..d.columns[j].inputs[i].type.."\""
-                    if d.columns[j].inputs[i].name ~= nil then
-                        json = json..",name:\""..replaceVariables(d.columns[j].inputs[i].name, d.variables).."\""
-                    end
-                    if d.columns[j].inputs[i].options ~= nil then
-                        if d.columns[j].inputs[i].labelMode then
-                            json = json..",options:{"
-                            local firstOne = true
-                            for k,v in pairs(d.columns[j].inputs[i].options) do
-                                if not firstOne then
-                                    json = json..","
-                                else
-                                    firstOne = false
-                                end
-                                json = json..k..":\""..v.."\""
-                            end
-                            json = json.."}"
-                        else
-                            json = json..",options:["
-                            for k=1,#d.columns[j].inputs[i].options do
-                                if k > 1 then
-                                    json = json..","
-                                end
-                                json = json.."\""..d.columns[j].inputs[i].options[k].."\""
-                            end
-                            json = json.."]"
+    for j=1,#d.columns do
+        json.columns[j] = {}
+        if d.columns[j].inputs ~= nil then
+            json.columns[j].inputs = {}
+            for i=1,#d.columns[j].inputs do
+                json.columns[j].inputs[i] = {
+                    type = d.columns[j].inputs[i].type
+                }
+                if d.columns[j].inputs[i].name ~= nil then
+                    json.columns[j].inputs[i].name = replaceVariables(d.columns[j].inputs[i].name, d.variables)
+                end
+                if d.columns[j].inputs[i].options ~= nil then
+                    json.columns[j].inputs[i].options = {}
+                    if d.columns[j].inputs[i].labelMode then
+                        for k,v in pairs(d.columns[j].inputs[i].options) do
+                            json.columns[j].inputs[i].options[k] = v
+                        end
+                    else
+                        for k=1,#d.columns[j].inputs[i].options do
+                            table.insert(json.columns[j].inputs[i].options, d.columns[j].inputs[i].options[k])
                         end
                     end
-                    if d.columns[j].inputs[i].size ~= nil then
-                        json = json..",size:"..d.columns[j].inputs[i].size
-                    end
-                    json = json.."}"
                 end
-                json = json.."],"
-            end
-            json = json.."buttons:["
-            for i=1,#d.columns[j].buttons do
-                if i > 1 then
-                    json = json..","
+                if d.columns[j].inputs[i].size ~= nil then
+                    json.columns[j].inputs[i].size = d.columns[j].inputs[i].size
                 end
-                json = json.."\""..replaceVariables(d.columns[j].buttons[i], d.variables).."\""
             end
-            json = json.."]}"
         end
-        json = json.."],buttons:["
-        for i=1,#d.buttons do
-            if i > 1 then
-                json = json..","
-            end
-            json = json.."\""..replaceVariables(d.buttons[i], d.variables).."\""
+        json.columns[j].buttons = {}
+        for i=1,#d.columns[j].buttons do
+            table.insert(json.columns[j].buttons, replaceVariables(d.columns[j].buttons[i], d.variables))
         end
     end
-    ExecuteWebJS(web, "SetDialog("..dialog..",{"..json.."]});")
+    for i=1,#d.buttons do
+        table.insert(json.buttons, replaceVariables(d.buttons[i], d.variables))
+    end
+    ExecuteWebJS(web, "SetDialog("..dialog..","..json_encode(json)..");")
     SetIgnoreLookInput(true)
     SetIgnoreMoveInput(true)
     ShowMouseCursor(true)
