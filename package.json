@@ -9,7 +9,8 @@
 	"files": [
 		"dialog.html",
 		"dialog.js",
-		"dialog.css",
+		"themes/default-dark.css",
+		"themes/saitama.css",
 		"grid.css"
 	]
 }

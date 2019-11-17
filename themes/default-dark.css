@@ -124,18 +124,6 @@ body {
     margin-bottom: 5px;
 }
 
-.menu-input-slider {
-    width: calc(100% - 8px);
-    background-color: #262626;
-    color: white;
-    outline: none;
-    margin-bottom: 5px;
-}
-
-.menu-checkbox {
-
-}
-
 ::-webkit-scrollbar {
     width: 5px;
 }

@@ -5,6 +5,7 @@ SetWebURL(web, "http://asset/dialogui/dialog.html")
 local nextId = 1
 local dialogs = {}
 local lastOpened = -1
+local globalTheme = "default-dark"
 function createDialog(title, text, ...)
     local id = nextId
     nextId = nextId + 1
@@ -140,6 +141,9 @@ function replaceVariables(text, variables)
     return text
 end
 function closeDialog()
+    if dialogs[lastOpened].theme ~= nil then
+        applyTheme(globalTheme)
+    end
     lastOpened = -1
     ExecuteWebJS(web, "CloseDialog();");
     SetIgnoreLookInput(false)
@@ -148,16 +152,21 @@ function closeDialog()
     SetInputMode(INPUT_GAME)
 end
 function destroyDialog(dialog)
-    dialogs[dialog] = nil
     if lastOpened == dialog then
         closeDialog()
     end
+    dialogs[dialog] = nil
 end
 function showDialog(dialog)
     if dialogs[dialog] == nil then
         return
     end
     lastOpened = dialog
+    if dialogs[dialog].theme ~= nil then
+        applyTheme(dialogs[dialog].theme)
+    else
+        applyTheme(globalTheme)
+    end
     local d = dialogs[dialog]
     local json = {
         autoclose = d.autoclose == "true",
@@ -212,6 +221,27 @@ function showDialog(dialog)
     ShowMouseCursor(true)
     SetInputMode(INPUT_GAMEANDUI)
 end
+function applyTheme(theme)
+    ExecuteWebJS(web, "SetTheme(\""..theme.."\");")
+end
+function setDialogTheme(dialog, theme)
+    if dialogs[dialog] == nil then
+        return
+    end
+    if (theme:len() > 5) and (theme:sub(1,5) == "http:") then
+        dialogs[dialog].theme = theme
+    else
+        dialogs[dialog].theme = "themes/"..theme..".css"
+    end
+end
+function setGlobalTheme(theme)
+    globalTheme = theme
+    if (theme:len() > 5) and (theme:sub(1,5) == "http:") then
+        globalTheme = theme
+    else
+        globalTheme = "themes/"..theme..".css"
+    end
+end
 AddEvent("__dialog_system_closed", function()
     lastOpened = -1
     SetIgnoreLookInput(false)
@@ -231,3 +261,5 @@ AddFunctionExport("destroy", destroyDialog)
 AddFunctionExport("setSelectOptions", setDialogSelectOptions)
 AddFunctionExport("setSelectLabeledOptions", setDialogSelectOptionsWithLabels)
 AddFunctionExport("setAutoClose", setDialogAutoclose)
+AddFunctionExport("setGlobalTheme", setGlobalTheme)
+AddFunctionExport("setDialogTheme", setDialogTheme)

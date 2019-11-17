@@ -201,3 +201,7 @@ function CloseDialog() {
     let menuDiv = document.getElementById("menu");
     menuDiv.style.display = "none";
 }
+
+function SetTheme(theme){
+    document.getElementById("theme").href = theme;
+}
