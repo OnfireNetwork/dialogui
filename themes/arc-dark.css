@@ -5,8 +5,8 @@
 
 
 .menu {
-    background-color: #1a1e27;
-    border: 1px solid #1a1e27;
+    background-color: #404552;
+    border: 1px solid #404552;
 }
 
 .menu-button {
@@ -19,13 +19,13 @@
 }
 
 .menu-select {
-    background-color: #262b39;
-    border: #202430 2px solid;
+    background-color:#383c4a;
+    border:#383c4a 2px solid;
     color: #FFFFFF;
 }
 
 .menu-input-text {
-    background-color: #262b39;
+    background-color: #383c4a;
     color: #FFFFFF;
     border: #212531 2px solid;
 }
@@ -38,6 +38,9 @@
     color: #FFFFFF;
 }
 
+.menu-button {
+    background-color: #5294e2;
+}
 
 ::-webkit-scrollbar-track {
     background: #1a1e27;

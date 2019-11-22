@@ -1,3 +1,7 @@
+/*
+        Material.css
+ */
+
 body {
     margin: 0px;
 }
@@ -6,7 +10,6 @@ body {
     padding: 0px;
     width: 100%;
 }
-
 
 .input-c2 {
     padding-left: 1%;
@@ -119,11 +122,12 @@ body {
 }
 
 .menu-select option {
-    padding: 5px 10px;
+    padding: 6px 10px;
+    border-radius: 4px;
 }
 
 .menu-select option:hover {
-    background: #FFFFFF;
+    background: #00000011;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
 }
