@@ -100,6 +100,12 @@ function setDialogSelectOptionsWithLabels(dialog, column, input, options)
     if dialogs[dialog].columns[column].inputs[input].options == nil then
         return
     end
+    for k,v in pairs(options) do
+        if type(k) == "number" then
+            options[tostring(k)] = options[k]
+            options[k] = nil
+        end
+    end
     dialogs[dialog].columns[column].inputs[input].options = options
 end
 function addDialogTextInput(dialog, column, label)
