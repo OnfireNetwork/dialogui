@@ -1,0 +1,42 @@
+@import "material.css";
+
+
+.menu {
+    background-color: #1a1e27;
+    border: 1px solid #1a1e27;
+}
+
+.menu-button {
+    background-color: #5151c9;
+    color: #ffffff;
+}
+
+
+.menu-select {
+    background-color: #262b39;
+    border: #202430 2px solid;
+    color: #FFFFFF;
+}
+
+.menu-input-text {
+    background-color: #262b39;
+    color: #FFFFFF;
+    border: #212531 2px solid;
+}
+
+.menu-title {
+    color: #FFFFFF;
+}
+
+.menu-info {
+    color: #FFFFFF;
+}
+
+
+::-webkit-scrollbar-track {
+    background: #1a1e27;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #262b39;
+}
