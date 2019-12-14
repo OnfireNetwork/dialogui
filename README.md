@@ -10,9 +10,7 @@ Dialog.addTextInput(test, 1, "First Name:")
 Dialog.addTextInput(test, 1, "Last Name:")
 Dialog.addSelect(test, 1, "Gender:", 1, "Male", "Female", "Apache Helicopter")
 
-AddEvent("OnDialogUIReady", function()
-  Dialog.show(test)
-end)
+Dialog.show(test)
 
 AddEvent("OnDialogSubmit", function(dialog, button, firstName, lastName, gender)
   if dialog ~= test then
