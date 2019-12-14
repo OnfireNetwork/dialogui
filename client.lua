@@ -256,15 +256,20 @@ AddEvent("__dialog_system_closed", function()
     SetInputMode(INPUT_GAME)
 end)
 
-function OnKeyPress(key)
+AddEvent("OnKeyPress", function(key)
     if lastOpened ~= -1 then
         SetIgnoreLookInput(true)
         SetIgnoreMoveInput(true)
         ShowMouseCursor(true)
         SetInputMode(INPUT_GAMEANDUI)
     end
-end
-AddEvent("OnKeyPress", OnKeyPress)
+end)
+
+AddEvent("OnDialogUIReady", function()
+   if lastOpened ~= -1 then
+       showDialog(lastOpened)
+   end
+end)
 
 AddFunctionExport("create", createDialog)
 AddFunctionExport("setButtons", setDialogButtons)
