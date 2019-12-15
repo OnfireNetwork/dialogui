@@ -1,11 +1,11 @@
 local web = CreateWebUI(0, 0, 0, 0, 1, 16)
 SetWebAlignment(web, 0, 0)
 SetWebAnchors(web, 0, 0, 1, 1)
-SetWebURL(web, "http://asset/dialogui/dialog.html")
+SetWebURL(web, "http://asset/"..GetPackageName().."/dialog.html")
 local nextId = 1
 local dialogs = {}
 local lastOpened = -1
-local globalTheme = "default-dark"
+local globalTheme = "themes/default-dark.css"
 function createDialog(title, text, ...)
     local id = nextId
     nextId = nextId + 1
