@@ -256,12 +256,14 @@ AddEvent("__dialog_system_closed", function()
     SetInputMode(INPUT_GAME)
 end)
 
-AddEvent("OnKeyPress", function(key)
+AddEvent("OnHideMainMenu", function()
     if lastOpened ~= -1 then
-        SetIgnoreLookInput(true)
-        SetIgnoreMoveInput(true)
-        ShowMouseCursor(true)
-        SetInputMode(INPUT_GAMEANDUI)
+        Delay(1, function()
+            SetIgnoreLookInput(true)
+            SetIgnoreMoveInput(true)
+            ShowMouseCursor(true)
+            SetInputMode(INPUT_GAMEANDUI)
+        end)
     end
 end)
 
