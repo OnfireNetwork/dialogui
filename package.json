@@ -1,16 +1,20 @@
 {
-	"author": "JanHolger",
-	"version": "1.0",
-	"server_scripts": [],
-	"client_scripts": [
-		"json.lua",
-		"client.lua"
-	],
-	"files": [
-		"dialog.html",
-		"dialog.js",
-		"themes/default-dark.css",
-		"themes/saitama.css",
-		"grid.css"
-	]
+    "author": "JanHolger",
+    "version": "1.0",
+    "server_scripts": [],
+    "client_scripts": [
+        "json.lua",
+        "client.lua"
+    ],
+    "files": [
+        "dialog.html",
+        "dialog.js",
+        "themes/default-dark.css",
+        "themes/saitama.css",
+        "themes/flat.css",
+        "themes/fonts/source-sans-pro/SourceSansPro-Regular.ttf",
+        "themes/fonts/source-sans-pro/SourceSansPro-Bold.ttf",
+        "themes/fonts/JosefinSans/JosefinSans-Bold.ttf",
+        "grid.css"
+    ]
 }
