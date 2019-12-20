@@ -266,9 +266,9 @@ AddEvent("OnKeyPress", function(key)
 end)
 
 AddEvent("OnDialogUIReady", function()
-   if lastOpened ~= -1 then
-       showDialog(lastOpened)
-   end
+    if lastOpened ~= -1 then
+        showDialog(lastOpened)
+    end
 end)
 
 AddFunctionExport("create", createDialog)

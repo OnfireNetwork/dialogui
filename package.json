@@ -11,6 +11,10 @@
 		"dialog.js",
 		"themes/default-dark.css",
 		"themes/saitama.css",
+		"themes/flat.css",
+		"themes/fonts/source-sans-pro/SourceSansPro-Regular.ttf",
+		"themes/fonts/source-sans-pro/SourceSansPro-Bold.ttf",
+		"themes/fonts/JosefinSans/JosefinSans-Bold.ttf",
 		"grid.css"
 	]
 }

@@ -27,3 +27,18 @@ AddEvent("OnDialogSubmit", function(dialog, button, firstName, lastName, gender)
 end)
 ```
 ![image](/screenshots/character-menu.png)
+
+## Themes
+There are multiple themes and you can create your own ones.
+- default-dark
+- saitama
+- flat
+
+To set the global theme:
+```lua
+Dialog.setGlobalTheme("flat")
+```
+To set a theme for just one dialog
+```lua
+Dialog.setDialogTheme(dialog, "flat")
+```
