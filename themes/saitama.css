@@ -100,6 +100,7 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: all 150ms ease;
+    outline: 0;
   }
   .menu-button:hover {
     transform: translateY(-3%);
