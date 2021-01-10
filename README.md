@@ -2,6 +2,7 @@
 A very simple ui system for basic dialogs in Onset
 
 ## Example
+*!!! Make sure to put dialogui before your gamemode in server_config.json or it won't work !!!*
 ```lua
 local Dialog = ImportPackage("dialogui")
 
