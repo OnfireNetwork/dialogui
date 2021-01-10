@@ -230,6 +230,14 @@ function showDialog(dialog)
     ShowMouseCursor(true)
     SetInputMode(INPUT_GAMEANDUI)
 end
+function getCurrent()
+    if lastOpened ~= -1 then
+        return lastOpened
+    end
+end
+function isVisible()
+    return getCurrent() ~= nil
+end
 function applyTheme(theme)
     ExecuteWebJS(web, "SetTheme(\""..theme.."\");")
 end
@@ -291,3 +299,5 @@ AddFunctionExport("setSelectLabeledOptions", setDialogSelectOptionsWithLabels)
 AddFunctionExport("setAutoClose", setDialogAutoclose)
 AddFunctionExport("setGlobalTheme", setGlobalTheme)
 AddFunctionExport("setDialogTheme", setDialogTheme)
+AddFunctionExport("getCurrent", getCurrent)
+AddFunctionExport("isVisible", isVisible)
