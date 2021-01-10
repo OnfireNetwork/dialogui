@@ -29,6 +29,29 @@ end)
 ```
 ![image](/screenshots/character-menu.png)
 
+## Available functions
+```lua
+create(title, text, ...buttons)
+setButtons(dialog, column, ...buttons)
+addTextInput(dialog, column, label)
+addSelect(dialog, column, label, size, ...options)
+setSelectOptions(dialog, column, input, ...options)
+setSelectLabeledOptions(dialog, column, input, options)
+addCheckbox(dialog, column, label)
+setVariable(dialog, name, value)
+setAutoclose(dialog, autoclose)
+show(dialog)
+close()
+destroy(dialog)
+getCurrent()
+isVisible()
+setDialogTheme(dialog, theme)
+setGlobalTheme(theme)
+```
+
+## Variables
+In some strings you may use variables to dynamically change parts of the text of certain dialogs. This may also be used to dynamically hide or display buttons because buttons with a length of 0 aren't displayed. The syntax for variables is `{some_variable}`
+
 ## Themes
 There are multiple themes and you can create your own ones.
 - default-dark
